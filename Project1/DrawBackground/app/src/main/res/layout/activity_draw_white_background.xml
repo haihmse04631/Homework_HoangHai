@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    android:background="#eae8e8"
+    android:padding="5dp"
+    android:orientation="vertical"
+    android:weightSum="10"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <RelativeLayout
+        android:weightSum="10"
+        android:layout_marginTop="5dp"
+        android:background="@drawable/custom_border"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1.0"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:id="@+id/btnPickColor"
+            android:layout_width="45dp"
+            android:layout_height="45dp"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="8dp"
+            android:src="@drawable/ic_color_lens"/>
+
+        <RadioGroup
+            android:id="@+id/rgSize"
+            android:layout_marginLeft="15dp"
+            android:layout_centerVertical="true"
+            android:layout_toRightOf="@+id/btnPickColor"
+            android:layout_width="match_parent"
+            android:orientation="horizontal"
+            android:layout_height="wrap_content">
+            <RadioButton
+                android:textStyle="bold"
+                android:textColor="@color/colorAccent"
+                android:layout_height="wrap_content"
+                android:layout_width="wrap_content"
+                    android:id="@+id/rb_thin"
+                    android:text="Thin"
+                />
+
+            <RadioButton
+                android:textStyle="bold"
+                android:textColor="@color/colorAccent"
+                android:layout_height="wrap_content"
+                android:layout_width="wrap_content"
+                android:id="@+id/rb_medium"
+                android:text="Medium"
+                />
+
+            <RadioButton
+                android:textStyle="bold"
+                android:textColor="@color/colorAccent"
+                android:layout_height="wrap_content"
+                android:layout_width="wrap_content"
+                android:id="@+id/rb_strong"
+                android:text="Strong"
+                />
+
+        </RadioGroup>
+
+        <ImageView
+            android:layout_centerVertical="true"
+            android:id="@+id/btnDone"
+            android:layout_width="45dp"
+            android:layout_height="45dp"
+            android:layout_alignParentEnd="true"
+            android:layout_marginRight="8dp"
+            android:background="@drawable/ic_done" />
+
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:background="#fffdfd"
+        android:layout_marginTop="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="9">
+
+        <TextView
+            android:text="Hoang Minh Hai"
+            android:layout_centerInParent="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/tvName"
+            />
+
+    </RelativeLayout>
+
+</LinearLayout>
