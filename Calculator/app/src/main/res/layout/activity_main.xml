@@ -198,6 +198,7 @@
                     android:layout_weight="1"
                     android:layout_width="0dp"
                     android:layout_height="match_parent">
+
                     <TextView
                         android:textStyle="bold"
                         android:textColor="#000000"
@@ -210,7 +211,6 @@
                         android:layout_height="match_parent" />
 
                 </RelativeLayout>
-
 
                 <RelativeLayout
                     android:padding="7dp"
@@ -442,10 +442,7 @@
                     android:layout_height="match_parent" />
             </RelativeLayout>
 
-
-
         </LinearLayout>
-
 
     </LinearLayout>
 

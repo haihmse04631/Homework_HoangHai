@@ -1,31 +1,46 @@
 package com.example.haihm.drawbackground;
 
 import android.content.DialogInterface;
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.annotation.IdRes;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.RadioGroup;
+import android.widget.RelativeLayout;
 
 import com.flask.colorpicker.ColorPickerView;
 import com.flask.colorpicker.builder.ColorPickerClickListener;
 import com.flask.colorpicker.builder.ColorPickerDialogBuilder;
 
+import java.io.FileNotFoundException;
+
 public class DrawWhiteBackgroundActivity extends AppCompatActivity implements View.OnClickListener {
 
     private ImageView btnDone, btnPickColor;
-    private int currentColor = 0xfff7a72e;
+    public static int currentColor = 0xfff7a72e;
     private RadioGroup radioGroupSize;
-    int currentSize = 10;
+    public static int currentSize = 10;
+    private DrawingView drawingView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_draw_white_background);
         setupUI();
+        addDrawingView();
         addListioner();
+    }
+
+    private void addDrawingView() {
+        RelativeLayout relativeLayout = (RelativeLayout) findViewById(R.id.rl_drawing);
+
+        drawingView = new DrawingView(this);
+        drawingView.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
+        relativeLayout.addView(drawingView);
     }
 
     public void addListioner(){
@@ -61,7 +76,6 @@ public class DrawWhiteBackgroundActivity extends AppCompatActivity implements Vi
         btnPickColor.setColorFilter(currentColor);
 
         radioGroupSize = (RadioGroup) findViewById(R.id.rgSize);
-
     }
 
     @Override
@@ -72,9 +86,23 @@ public class DrawWhiteBackgroundActivity extends AppCompatActivity implements Vi
             break;
         }
         case R.id.btnDone: {
+            saveImage();
             break;
         }
     }
+    }
+
+    private void saveImage() {
+        drawingView.setDrawingCacheEnabled(true);
+        drawingView.buildDrawingCache();
+        Bitmap bitmap = drawingView.getDrawingCache();
+        Log.e("bitmap", bitmap.toString());
+
+        try {
+            ImageUtils.saveImage(bitmap, this);
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
     }
 
     private void pickColor() {
@@ -92,6 +120,7 @@ public class DrawWhiteBackgroundActivity extends AppCompatActivity implements Vi
                         Log.e("color",  i + "");
                     }
                 })
+                .lightnessSliderOnly()
                 .build()
                 .show();
     }

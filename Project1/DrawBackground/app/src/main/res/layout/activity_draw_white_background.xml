@@ -27,7 +27,7 @@
 
         <RadioGroup
             android:id="@+id/rgSize"
-            android:layout_marginLeft="15dp"
+            android:layout_marginLeft="10dp"
             android:layout_centerVertical="true"
             android:layout_toRightOf="@+id/btnPickColor"
             android:layout_width="match_parent"
@@ -59,7 +59,6 @@
                 android:id="@+id/rb_strong"
                 android:text="Strong"
                 />
-
         </RadioGroup>
 
         <ImageView
@@ -71,23 +70,16 @@
             android:layout_marginRight="8dp"
             android:background="@drawable/ic_done" />
 
-
     </RelativeLayout>
 
     <RelativeLayout
+        android:id="@+id/rl_drawing"
         android:background="#fffdfd"
         android:layout_marginTop="10dp"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="9">
 
-        <TextView
-            android:text="Hoang Minh Hai"
-            android:layout_centerInParent="true"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/tvName"
-            />
 
     </RelativeLayout>
 
