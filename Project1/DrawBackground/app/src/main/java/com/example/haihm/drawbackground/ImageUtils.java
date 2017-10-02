@@ -2,6 +2,7 @@ package com.example.haihm.drawbackground;
 
 import android.content.Context;
 import android.graphics.Bitmap;
+import android.media.MediaScannerConnection;
 import android.os.Environment;
 import android.util.Log;
 import android.widget.Toast;
@@ -34,7 +35,9 @@ public class ImageUtils {
             fileOutputStream.flush();
             fileOutputStream.close();
 
+            MediaScannerConnection.scanFile(context, new String[]{imageFile.getAbsolutePath()}, null, null);
             Toast.makeText(context, "saved!", Toast.LENGTH_SHORT).show();
+
         }catch (FileNotFoundException e){
             e.printStackTrace();
         } catch (IOException e) {

@@ -87,6 +87,8 @@ public class DrawWhiteBackgroundActivity extends AppCompatActivity implements Vi
         }
         case R.id.btnDone: {
             saveImage();
+            btnDone.setClickable(false);
+            this.finish();
             break;
         }
     }
