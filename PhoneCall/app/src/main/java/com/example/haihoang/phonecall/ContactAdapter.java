@@ -1,7 +1,6 @@
-package com.example.haihoang.homeword_gridview;
+package com.example.haihoang.phonecall;
 
 import android.content.Context;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,29 +8,27 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import org.w3c.dom.Text;
-
 import java.util.List;
 
 /**
- * Created by haihoang on 10/2/17.
+ * Created by haihoang on 10/5/17.
  */
 
-public class CountryFlagAdapter extends BaseAdapter {
-
+public class ContactAdapter extends BaseAdapter{
     private Context context;
     private int layout;
-    private List<CountryFlag> countryFlagList;
+    private List<Contact> contactsList;
 
-    public CountryFlagAdapter(Context context, int layout, List<CountryFlag> countryFlagList) {
+    public ContactAdapter(Context context, int layout, List<Contact> contactsList) {
         this.context = context;
         this.layout = layout;
-        this.countryFlagList = countryFlagList;
+        this.contactsList = contactsList;
     }
+
 
     @Override
     public int getCount() {
-        return countryFlagList.size();
+        return contactsList.size();
     }
 
     @Override
@@ -45,8 +42,9 @@ public class CountryFlagAdapter extends BaseAdapter {
     }
 
     private class ViewHolder{
-        ImageView imgCountryFlag;
-        TextView countryName;
+        ImageView imgAvatar;
+        TextView txtName;
+        TextView txtPhoneNumber;
     }
 
     @Override
@@ -58,25 +56,20 @@ public class CountryFlagAdapter extends BaseAdapter {
             viewHolder = new ViewHolder();
             LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             view = inflater.inflate(layout, null);
-            viewHolder.imgCountryFlag = view.findViewById(R.id.imgCountry);
-            viewHolder.countryName = view.findViewById(R.id.txtCountry);
+            viewHolder.imgAvatar = view.findViewById(R.id.imgAvatar);
+            viewHolder.txtName = view.findViewById(R.id.txtName);
+            viewHolder.txtPhoneNumber = view.findViewById(R.id.txtPhoneNumber);
             view.setTag(viewHolder);
-            Log.e("check viewHolder", "View == null");
         }else{
             viewHolder = (ViewHolder) view.getTag();
-            Log.e("check viewHolder", "View != null");
         }
 
-        CountryFlag countryFlag = countryFlagList.get(i);
+        Contact contact = contactsList.get(i);
 
-        viewHolder.imgCountryFlag.setImageResource(countryFlag.getImgCountry());
-        viewHolder.countryName.setText(countryFlag.getCountryName());
+        viewHolder.imgAvatar.setImageResource(contact.getAvatar());
+        viewHolder.txtName.setText(contact.getName());
+        viewHolder.txtPhoneNumber.setText(contact.getPhoneNumber());
 
         return view;
-    }
-
-    @Override
-    public CharSequence[] getAutofillOptions() {
-        return new CharSequence[0];
     }
 }

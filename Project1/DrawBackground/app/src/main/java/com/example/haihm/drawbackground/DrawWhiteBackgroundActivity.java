@@ -1,8 +1,11 @@
 package com.example.haihm.drawbackground;
 
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.graphics.Bitmap;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.support.annotation.IdRes;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -31,15 +34,50 @@ public class DrawWhiteBackgroundActivity extends AppCompatActivity implements Vi
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_draw_white_background);
         setupUI();
-        addDrawingView();
+
+        if(!getIntent().getBooleanExtra(MainActivity.MODE_CAMERA, false)){
+            addDrawingView(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT, null);
+        }else{
+            openCamera();
+        }
+
         addListioner();
     }
 
-    private void addDrawingView() {
+    private void openCamera() {
+        Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+
+        Uri uri = ImageUtils.getUriFromImage(this);
+
+        intent.putExtra(MediaStore.EXTRA_OUTPUT, uri);
+
+        if(intent.resolveActivity(getPackageManager()) != null){
+            startActivityForResult(intent, 1);
+        }
+
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        Log.e("onActivityResul", "I'm Here!");
+        if(requestCode == 1){
+            Log.e("onActivityResul", "I'm get Request code == 1");
+            if(resultCode == RESULT_OK)
+            {
+                Bitmap bitmap = ImageUtils.getBitmap(this);
+                addDrawingView(bitmap.getWidth(), bitmap.getHeight(), bitmap);
+            }
+
+        }
+
+    }
+
+    private void addDrawingView(int with, int height, Bitmap bitmap) {
         RelativeLayout relativeLayout = (RelativeLayout) findViewById(R.id.rl_drawing);
 
-        drawingView = new DrawingView(this);
-        drawingView.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
+        drawingView = new DrawingView(this, bitmap);
+        drawingView.setLayoutParams(new ViewGroup.LayoutParams(with, height));
         relativeLayout.addView(drawingView);
     }
 

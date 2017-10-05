@@ -42,18 +42,8 @@ public class MainActivity extends AppCompatActivity{
         initPermission();
         SetupUI();
 
-        if(!getIntent().getBooleanExtra(MainActivity.MODE_CAMERA, false)){
-            Log.e("onCreate", "addDrawingView");
-        }else{
-            openCamera();
-            Log.e("onCreate", "openCamera");
-        }
 
         addListioner();
-    }
-
-    private void openCamera() {
-
     }
 
 

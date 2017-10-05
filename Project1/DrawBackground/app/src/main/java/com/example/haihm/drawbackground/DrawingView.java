@@ -4,6 +4,7 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
+import android.graphics.Matrix;
 import android.graphics.Paint;
 import android.graphics.Path;
 import android.util.Log;
@@ -17,13 +18,14 @@ import android.view.View;
 public class DrawingView extends View {
 
     private Canvas canvas;
-    private Paint paint;
+    private Paint paint, cameraPaint;
     private Path path;
     private Bitmap canvasBitmap;
 
-    public DrawingView(Context context) {
+    public DrawingView(Context context, Bitmap bitmap ) {
         super(context);
         path = new Path();
+        this.canvasBitmap = bitmap;
 
         paint = new Paint();
         paint.setColor(DrawWhiteBackgroundActivity.currentColor);
@@ -31,21 +33,33 @@ public class DrawingView extends View {
         paint.setAntiAlias(true);
         paint.setStyle(Paint.Style.STROKE);
         paint.setStrokeCap(Paint.Cap.ROUND);
+
+        cameraPaint = new Paint(Paint.DITHER_FLAG);
+
         Log.e("checkView", "DrawingView ");
     }
 
     @Override
     protected void onSizeChanged(int w, int h, int oldw, int oldh) {
         super.onSizeChanged(w, h, oldw, oldh);
-        canvasBitmap = Bitmap.createBitmap(w, h, Bitmap.Config.ARGB_8888);
-        canvasBitmap.eraseColor(Color.WHITE);
+
+        if(canvasBitmap == null){
+            canvasBitmap = Bitmap.createBitmap(w, h, Bitmap.Config.ARGB_8888);
+            canvasBitmap.eraseColor(Color.WHITE);
+        }
         canvas = new Canvas(canvasBitmap);
     }
 
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
-        canvas.drawBitmap(canvasBitmap, 0, 0, paint);
+
+        if(canvasBitmap == null){
+            canvas.drawBitmap(canvasBitmap, 0, 0, paint);
+        }else{
+            canvas.drawBitmap(canvasBitmap, new Matrix(), cameraPaint);
+        }
+       // canvas.drawBitmap(canvasBitmap, 0, 0, paint);
         canvas.drawPath(path, paint);
         Log.e("checkAction", "onDraw");
     }

@@ -23,7 +23,6 @@ public class MainActivity extends AppCompatActivity {
         gvListCountryFlags.setAdapter(adapter);
 
 
-
     }
 
     private void SetupUI() {
