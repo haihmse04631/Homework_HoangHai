@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#02BBD8</color>
+    <color name="colorPrimaryDark">#02A8C2</color>
+    <color name="colorAccent">#48E85D</color>
+    <color name="not_done">#FFF200</color>
+    <color name="done">#4FFF66</color>
+    <color name="out_of_time">#FF3F69 </color>
+    <color name="borderColor">#05c1ca</color>
+    <color name="transparent">#F00</color>
+</resources>

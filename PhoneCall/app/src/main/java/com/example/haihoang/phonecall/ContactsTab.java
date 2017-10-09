@@ -34,7 +34,7 @@ public class ContactsTab extends Fragment {
         rootView = inflater.inflate(R.layout.contacts, container, false);
 
         setupUI();
-
+        
         adapter = new ContactAdapter(getActivity(), R.layout.contact_element, arrContacts);
         lvContacts.setAdapter(adapter);
 
