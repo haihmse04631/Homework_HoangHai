@@ -1,4 +1,4 @@
-package com.example.haihoang.project2_readbook;
+package com.example.haihoang.project2_readbook.databases;
 
 import android.content.Context;
 import android.database.Cursor;
@@ -16,6 +16,7 @@ public class DatabaseHandle {
 
     private  AssetsHelper assetsHelper;
     private SQLiteDatabase sqLiteDatabase;
+    private  SQLiteDatabase sqlWrite;
 
     public DatabaseHandle(Context context) {
         assetsHelper = new AssetsHelper(context);
@@ -48,13 +49,16 @@ public class DatabaseHandle {
             storyModelList.add(storyModel);
             cursor.moveToNext();
         }
-
         for(int i=0; i<storyModelList.size(); i++){
             Log.e("check data", storyModelList.get(i).toString());
 
         }
-
-
         return storyModelList;
+    }
+
+    public void updateBookmark(String id){
+        sqlWrite = assetsHelper.getWritableDatabase();
+        String querry = "update tbl_short_story set bookmark = 1 where id =" + id;
+        sqlWrite.execSQL(querry);
     }
 }

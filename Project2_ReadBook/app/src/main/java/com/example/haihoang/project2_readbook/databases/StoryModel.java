@@ -1,10 +1,12 @@
-package com.example.haihoang.project2_readbook;
+package com.example.haihoang.project2_readbook.databases;
+
+import java.io.Serializable;
 
 /**
  * Created by haihoang on 10/7/17.
  */
 
-public class StoryModel {
+public class StoryModel implements Serializable {
     private String image;
     private String title;
     private String description, content, author;

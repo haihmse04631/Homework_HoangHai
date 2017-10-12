@@ -1,4 +1,4 @@
-package com.example.haihoang.project2_readbook;
+package com.example.haihoang.project2_readbook.adapter;
 
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -13,6 +13,9 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.example.haihoang.project2_readbook.R;
+import com.example.haihoang.project2_readbook.databases.StoryModel;
 
 import java.util.List;
 

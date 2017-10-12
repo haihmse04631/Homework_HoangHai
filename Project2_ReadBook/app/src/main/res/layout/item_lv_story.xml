@@ -37,7 +37,7 @@
                 android:layout_toRightOf="@+id/viewBookmark"
                 android:text="title"
                 android:textSize="16sp"
-                android:textStyle="bold" />
+                android:textStyle="bold"/>
 
             <TextView
                 android:id="@+id/tv_author"

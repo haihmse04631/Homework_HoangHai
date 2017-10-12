@@ -5,7 +5,7 @@
     android:padding="5dp"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.example.haihoang.project2_readbook.MainActivity">
+    tools:context="com.example.haihoang.project2_readbook.activity.MainActivity">
 
     <ListView
         android:id="@+id/lv_story"
