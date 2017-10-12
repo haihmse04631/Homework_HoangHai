@@ -3,7 +3,6 @@ package com.example.haihoang.project2_readbook.databases;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-import android.util.Log;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -39,26 +38,32 @@ public class DatabaseHandle {
         cursor.moveToFirst();
 
         while(!cursor.isAfterLast()){
+            String id = cursor.getString(0);
             String image = cursor.getString(1);
             String title = cursor.getString(2);
             String description = cursor.getString(3);
             String content = cursor.getString(4);
             String author = cursor.getString(5);
             boolean bookmark = cursor.getInt(6) != 0;
-            StoryModel storyModel = new StoryModel(image,title, description, content, author,bookmark );
+            StoryModel storyModel = new StoryModel(id,image,title, description, content, author,bookmark );
             storyModelList.add(storyModel);
             cursor.moveToNext();
         }
-        for(int i=0; i<storyModelList.size(); i++){
-            Log.e("check data", storyModelList.get(i).toString());
-
-        }
+//        for(int i=0; i<storyModelList.size(); i++){
+//            Log.e("check data", storyModelList.get(i).toString());
+//        }
         return storyModelList;
     }
 
     public void updateBookmark(String id){
         sqlWrite = assetsHelper.getWritableDatabase();
         String querry = "update tbl_short_story set bookmark = 1 where id =" + id;
+        sqlWrite.execSQL(querry);
+    }
+
+    public void resetBookmark(String id){
+        sqlWrite = assetsHelper.getWritableDatabase();
+        String querry = "update tbl_short_story set bookmark = 0 where id =" + id;
         sqlWrite.execSQL(querry);
     }
 }

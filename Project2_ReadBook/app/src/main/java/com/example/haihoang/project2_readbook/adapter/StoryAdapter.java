@@ -3,6 +3,7 @@ package com.example.haihoang.project2_readbook.adapter;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
 import android.support.annotation.LayoutRes;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -45,6 +46,7 @@ public class StoryAdapter extends ArrayAdapter<StoryModel> {
         TextView tvTitle = convertView.findViewById(R.id.tv_title);
         TextView tvAuthor = convertView.findViewById(R.id.tv_author);
         ImageView imgStory = convertView.findViewById(R.id.iv_story);
+        View viewBookmark = convertView.findViewById(R.id.viewBookmark);
 
         //set Data
         tvTitle.setText(storyModelList.get(position).getTitle());
@@ -54,8 +56,12 @@ public class StoryAdapter extends ArrayAdapter<StoryModel> {
                 Base64.decode(base64[1], Base64.DEFAULT), 0,
                 (Base64.decode(base64[1], Base64.DEFAULT)).length
         );
-
         imgStory.setImageBitmap(bitmap);
+        if(storyModelList.get(position).getBookmark()){
+            viewBookmark.setBackgroundColor(Color.YELLOW);
+        }else{
+            viewBookmark.setBackgroundResource(R.color.colorPrimary);
+        }
 
         return convertView;
     }

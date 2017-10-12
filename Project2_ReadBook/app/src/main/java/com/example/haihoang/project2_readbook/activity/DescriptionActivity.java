@@ -1,16 +1,19 @@
 package com.example.haihoang.project2_readbook.activity;
 
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Base64;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.haihoang.project2_readbook.R;
+import com.example.haihoang.project2_readbook.databases.DatabaseHandle;
 import com.example.haihoang.project2_readbook.databases.StoryModel;
 
 public class DescriptionActivity extends AppCompatActivity implements View.OnClickListener {
@@ -19,7 +22,7 @@ public class DescriptionActivity extends AppCompatActivity implements View.OnCli
     private Button btnStartReading;
     private ImageView ivBack,ivBookmark,ivStory;
     private StoryModel storyModel;
-
+    private int check;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -28,6 +31,24 @@ public class DescriptionActivity extends AppCompatActivity implements View.OnCli
         setupUI();
         addListioners();
         loadData();
+        if(storyModel.getBookmark()) check = 1;
+        else check = 2;
+        ivBookmark.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Log.e("click", "I'm click");
+                if(check%2 != 0){
+                    DatabaseHandle.getInstance(DescriptionActivity.this).resetBookmark(storyModel.getId());
+                    check++;
+                    ivBookmark.setImageResource(R.drawable.ic_bookmark_black_24dp);
+                }
+                else if(check%2 == 0){
+                    DatabaseHandle.getInstance(DescriptionActivity.this).updateBookmark(storyModel.getId());
+                    check++;
+                    ivBookmark.setImageResource(R.drawable.ic_bookmark_24dp);
+                }
+            }
+        });
 
     }
 
@@ -41,8 +62,13 @@ public class DescriptionActivity extends AppCompatActivity implements View.OnCli
                 Base64.decode(base64[1], Base64.DEFAULT), 0,
                 (Base64.decode(base64[1], Base64.DEFAULT)).length
         );
-
         ivStory.setImageBitmap(bitmap);
+        if(storyModel.getBookmark()){
+            ivBookmark.setImageResource(R.drawable.ic_bookmark_24dp);
+
+        }else{
+            ivBookmark.setImageResource(R.drawable.ic_bookmark_black_24dp);
+        }
     }
 
     private void addListioners() {
@@ -60,7 +86,6 @@ public class DescriptionActivity extends AppCompatActivity implements View.OnCli
         ivBookmark = (ImageView) findViewById(R.id.ivBookmark);
         ivStory = (ImageView) findViewById(R.id.ivStory);
 
-
     }
 
     @Override
@@ -68,7 +93,7 @@ public class DescriptionActivity extends AppCompatActivity implements View.OnCli
 
         switch (view.getId()){
             case R.id.ivBack: {
-                super.onBackPressed();
+                back();
                 break;
             }
             case R.id.ivBookmark: {
@@ -76,7 +101,6 @@ public class DescriptionActivity extends AppCompatActivity implements View.OnCli
                 break;
             }
             case R.id.btnStartReading: {
-
                 break;
             }
         }
@@ -88,6 +112,7 @@ public class DescriptionActivity extends AppCompatActivity implements View.OnCli
     }
 
     private void back() {
-        finish();
+        Intent intent = new Intent(DescriptionActivity.this, MainActivity.class);
+        startActivity(intent);
     }
 }
