@@ -55,15 +55,11 @@ public class DatabaseHandle {
         return storyModelList;
     }
 
-    public void updateBookmark(String id){
+    public void updateBookmark(String id, int number){
         sqlWrite = assetsHelper.getWritableDatabase();
-        String querry = "update tbl_short_story set bookmark = 1 where id =" + id;
+        String querry = "update tbl_short_story set bookmark = " + number  + " where id =" + id;
         sqlWrite.execSQL(querry);
     }
 
-    public void resetBookmark(String id){
-        sqlWrite = assetsHelper.getWritableDatabase();
-        String querry = "update tbl_short_story set bookmark = 0 where id =" + id;
-        sqlWrite.execSQL(querry);
-    }
+
 }

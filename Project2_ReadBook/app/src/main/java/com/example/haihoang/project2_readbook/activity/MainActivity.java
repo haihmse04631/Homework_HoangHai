@@ -27,8 +27,8 @@ public class MainActivity extends AppCompatActivity {
 
         lvStory = (ListView) findViewById(R.id.lv_story);
         StoryAdapter storyAdapter = new StoryAdapter(this, R.layout.item_lv_story,storyModelList);
-        storyAdapter.notifyDataSetChanged();
         lvStory.setAdapter(storyAdapter);
+
 
         lvStory.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override

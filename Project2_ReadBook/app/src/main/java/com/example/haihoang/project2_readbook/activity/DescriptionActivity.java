@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Base64;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -31,21 +32,22 @@ public class DescriptionActivity extends AppCompatActivity implements View.OnCli
         setupUI();
         addListioners();
         loadData();
-        if(storyModel.getBookmark()) check = 1;
-        else check = 2;
         ivBookmark.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Log.e("click", "I'm click");
-                if(check%2 != 0){
-                    DatabaseHandle.getInstance(DescriptionActivity.this).resetBookmark(storyModel.getId());
+                if(storyModel.getBookmark()){
+                    DatabaseHandle.getInstance(DescriptionActivity.this).updateBookmark(storyModel.getId(), 0);
+                    storyModel.setBookmark(false);
                     check++;
                     ivBookmark.setImageResource(R.drawable.ic_bookmark_black_24dp);
+                    Log.e("bookmark", storyModel.getBookmark() + "");
                 }
-                else if(check%2 == 0){
-                    DatabaseHandle.getInstance(DescriptionActivity.this).updateBookmark(storyModel.getId());
+                else if(!storyModel.getBookmark()){
+                    DatabaseHandle.getInstance(DescriptionActivity.this).updateBookmark(storyModel.getId(), 1);
+                    storyModel.setBookmark(true);
                     check++;
                     ivBookmark.setImageResource(R.drawable.ic_bookmark_24dp);
+                    Log.e("bookmark", storyModel.getBookmark() + "");
                 }
             }
         });
@@ -93,11 +95,12 @@ public class DescriptionActivity extends AppCompatActivity implements View.OnCli
 
         switch (view.getId()){
             case R.id.ivBack: {
-                back();
+                Intent intent = new Intent(DescriptionActivity.this, MainActivity.class);
+                startActivity(intent);
                 break;
             }
             case R.id.ivBookmark: {
-                bookmark();
+
                 break;
             }
             case R.id.btnStartReading: {
@@ -107,12 +110,15 @@ public class DescriptionActivity extends AppCompatActivity implements View.OnCli
 
     }
 
-    private void bookmark() {
-
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (keyCode == KeyEvent.KEYCODE_BACK) {
+            Intent intent = new Intent(DescriptionActivity.this, MainActivity.class);
+            startActivity(intent);
+            return false;
+        }
+        return super.onKeyDown(keyCode, event);
     }
 
-    private void back() {
-        Intent intent = new Intent(DescriptionActivity.this, MainActivity.class);
-        startActivity(intent);
-    }
+
 }
