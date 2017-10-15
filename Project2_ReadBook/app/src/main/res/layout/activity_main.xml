@@ -8,6 +8,7 @@
     tools:context="com.example.haihoang.project2_readbook.activity.MainActivity">
 
     <ListView
+        android:divider="@null"
         android:id="@+id/lv_story"
         android:layout_width="match_parent"
         android:layout_height="match_parent"/>

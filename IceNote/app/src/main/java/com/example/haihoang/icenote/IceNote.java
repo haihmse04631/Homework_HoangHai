@@ -21,6 +21,7 @@ public class IceNote extends AppCompatActivity{
     private FloatingActionButton btnAdd;
     NoteAdapter noteAdapter;
     int position;
+    //public static final String NOTE_KEY = "note_key";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -36,7 +37,6 @@ public class IceNote extends AppCompatActivity{
         noteAdapter = new NoteAdapter(this, R.layout.item_list_note, noteList);
         lvListNote.setAdapter(noteAdapter);
 
-
         btnAdd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -50,8 +50,11 @@ public class IceNote extends AppCompatActivity{
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 Intent intent = new Intent(IceNote.this, ShowOwnNote.class);
                 Bundle bundle = new Bundle();
+                bundle.putInt("position", i);
+                bundle.putString("id", noteList.get(i).getId());
                 bundle.putString("title", noteList.get(i).getTitle());
                 bundle.putString("content", noteList.get(i).getContent());
+                bundle.putBoolean("status", false);
                 intent.putExtra("myNote", bundle);
                 startActivity(intent);
             }
@@ -60,6 +63,13 @@ public class IceNote extends AppCompatActivity{
         lvListNote.setOnItemLongClickListener(new DialogSelect());
 
     }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        noteAdapter.notifyDataSetChanged();
+    }
+
 
     private class DialogSelect implements AdapterView.OnItemLongClickListener{
         @Override
@@ -82,8 +92,21 @@ public class IceNote extends AppCompatActivity{
                     noteList.remove(noteList.get(position));
                     noteAdapter.notifyDataSetChanged();
                 }
+            })
+            .setNeutralButton("Update", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialogInterface, int i) {
+                    Intent intent = new Intent(IceNote.this, ShowOwnNote.class);
+                    Bundle bundle = new Bundle();
+                    bundle.putInt("position", position);
+                    bundle.putString("id", noteList.get(position).getId());
+                    bundle.putString("title", noteList.get(position).getTitle());
+                    bundle.putString("content", noteList.get(position).getContent());
+                    bundle.putBoolean("status", true);
+                    intent.putExtra("myNote", bundle);
+                    startActivity(intent);
+                }
             });
-
             alertDialogBuilder.show();
             return true;
         }

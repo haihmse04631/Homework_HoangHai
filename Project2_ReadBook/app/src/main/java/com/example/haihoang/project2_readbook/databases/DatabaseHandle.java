@@ -28,7 +28,6 @@ public class DatabaseHandle {
             databaseHandle = new DatabaseHandle(context);
         }
         return databaseHandle;
-
     }
 
     public List<StoryModel> getListStory(){

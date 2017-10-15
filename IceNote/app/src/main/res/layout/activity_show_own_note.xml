@@ -13,6 +13,7 @@
         android:layout_height="0dp">
 
         <TextView
+            android:textColor="#000000"
             android:id="@+id/tvTitle"
             android:layout_marginLeft="20dp"
             android:layout_centerVertical="true"
@@ -23,6 +24,7 @@
             android:layout_height="wrap_content" />
 
         <TextView
+            android:textColor="#000000"
             android:layout_marginLeft="10dp"
             android:layout_centerVertical="true"
             android:layout_toRightOf="@+id/tvTitle"
@@ -42,11 +44,15 @@
         android:layout_width="match_parent"
         android:layout_height="0dp">
 
-        <TextView
-            android:id="@+id/txtShowContent"
+        <EditText
+            android:background="@null"
+            android:textColor="#000000"
+            android:gravity="top"
+            android:inputType="textMultiLine"
+            android:id="@+id/edtShowContent"
             android:textSize="15sp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
 
     </RelativeLayout>
 

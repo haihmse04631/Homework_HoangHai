@@ -104,6 +104,9 @@ public class DescriptionActivity extends AppCompatActivity implements View.OnCli
                 break;
             }
             case R.id.btnStartReading: {
+                Intent intent = new Intent(this, ReadingActivity.class);
+                intent.putExtra(MainActivity.STORY_KEY, storyModel);
+                startActivity(intent);
                 break;
             }
         }

@@ -18,6 +18,7 @@ public class DatabaseHandle {
     private  AssetsHelper assetsHelper;
     private SQLiteDatabase sqLiteDatabase;
     private SQLiteDatabase sqlWrite;
+    List<Note> noteList;
 
     public DatabaseHandle(Context context) {
         assetsHelper = new AssetsHelper(context);
@@ -33,7 +34,7 @@ public class DatabaseHandle {
     }
 
     public List<Note> getListNote(){
-        List<Note> noteList = new ArrayList<>();
+        noteList = new ArrayList<>();
         sqLiteDatabase = assetsHelper.getReadableDatabase();
         Cursor cursor = sqLiteDatabase.rawQuery("select * from tbl_ice_note", null);
         cursor.moveToFirst();
@@ -75,6 +76,13 @@ public class DatabaseHandle {
     public void updateBookmark(String id){
         sqlWrite = assetsHelper.getWritableDatabase();
         String querry = "update tbl_ice_note set bookmark = 1 where id =" + id;
+        sqlWrite.execSQL(querry);
+    }
+
+    public void updateContent(String id, String content, int position){
+        sqlWrite = assetsHelper.getWritableDatabase();
+        String querry = "update tbl_ice_note set content = '" + content + "'where id =" + id;
+        noteList.get(position).setContent(content);
         sqlWrite.execSQL(querry);
     }
 }
