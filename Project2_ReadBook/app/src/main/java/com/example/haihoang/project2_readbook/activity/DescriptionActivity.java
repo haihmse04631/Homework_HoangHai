@@ -1,11 +1,8 @@
 package com.example.haihoang.project2_readbook.activity;
 
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Base64;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
@@ -59,12 +56,12 @@ public class DescriptionActivity extends AppCompatActivity implements View.OnCli
         tvTitle.setText(storyModel.getTitle());
         tvDescription.setText(storyModel.getDescription());
         tvAuthor.setText(storyModel.getAuthor());
-        String[] base64 = storyModel.getImage().split(",");
-        Bitmap bitmap = BitmapFactory.decodeByteArray(
-                Base64.decode(base64[1], Base64.DEFAULT), 0,
-                (Base64.decode(base64[1], Base64.DEFAULT)).length
-        );
-        ivStory.setImageBitmap(bitmap);
+//        String[] base64 = storyModel.getImage().split(",");
+//        Bitmap bitmap = BitmapFactory.decodeByteArray(
+//                Base64.decode(base64[1], Base64.DEFAULT), 0,
+//                (Base64.decode(base64[1], Base64.DEFAULT)).length
+//        );
+//        ivStory.setImageBitmap(bitmap);
         if(storyModel.getBookmark()){
             ivBookmark.setImageResource(R.drawable.ic_bookmark_24dp);
 

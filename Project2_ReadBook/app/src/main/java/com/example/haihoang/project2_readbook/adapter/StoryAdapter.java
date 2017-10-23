@@ -4,10 +4,11 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
+import android.os.AsyncTask;
 import android.support.annotation.LayoutRes;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.util.Base64;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,6 +19,10 @@ import android.widget.TextView;
 import com.example.haihoang.project2_readbook.R;
 import com.example.haihoang.project2_readbook.databases.StoryModel;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.List;
 
 /**
@@ -51,12 +56,15 @@ public class StoryAdapter extends ArrayAdapter<StoryModel> {
         //set Data
         tvTitle.setText(storyModelList.get(position).getTitle());
         tvAuthor.setText(storyModelList.get(position).getAuthor());
-        String[] base64 = storyModelList.get(position).getImage().split(",");
-        Bitmap bitmap = BitmapFactory.decodeByteArray(
-                Base64.decode(base64[1], Base64.DEFAULT), 0,
-                (Base64.decode(base64[1], Base64.DEFAULT)).length
-        );
-        imgStory.setImageBitmap(bitmap);
+//        String[] base64 = storyModelList.get(position).getImage().split(",");
+//        Bitmap bitmap = BitmapFactory.decodeByteArray(
+//                Base64.decode(base64[1], Base64.DEFAULT), 0,
+//                (Base64.decode(base64[1], Base64.DEFAULT)).length
+//        );
+//        imgStory.setImageBitmap(bitmap);
+        ImageLoader imageLoader = new ImageLoader(imgStory);
+        imageLoader.execute(storyModelList.get(position).getImage());
+
         if(storyModelList.get(position).getBookmark()){
             viewBookmark.setBackgroundColor(Color.YELLOW);
         }else{
@@ -64,5 +72,44 @@ public class StoryAdapter extends ArrayAdapter<StoryModel> {
         }
 
         return convertView;
+    }
+
+    class ImageLoader extends AsyncTask<String, Long, Bitmap>{
+        private ImageView imageView;
+
+        public ImageLoader(ImageView imageView) {
+            this.imageView = imageView;
+            Log.e("thread", "AsyncTask");
+        }
+
+        @Override
+        protected Bitmap doInBackground(String... strings) {
+            Log.e("thread", "doInBackground");
+            Bitmap bitmap = null;
+            try {
+                URL url = new URL(strings[0]);
+                InputStream inputStream =  url.openStream();
+                bitmap = BitmapFactory.decodeStream(inputStream);
+            } catch (MalformedURLException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+            return bitmap;
+        }
+
+        @Override
+        protected void onProgressUpdate(Long... values) {
+            super.onProgressUpdate(values);
+
+        }
+
+        @Override
+        protected void onPostExecute(Bitmap bitmap) {
+            Log.e("thread", "doPostExecute");
+            imageView.setImageBitmap(bitmap);
+
+        }
     }
 }

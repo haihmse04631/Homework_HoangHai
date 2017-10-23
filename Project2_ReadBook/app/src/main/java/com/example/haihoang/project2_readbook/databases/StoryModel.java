@@ -13,14 +13,14 @@ public class StoryModel implements Serializable {
     private String description, content, author;
     private boolean bookmark;
 
-    public StoryModel(String image, String title, String description, String content, String author, boolean bookmark) {
-        this.image = image;
-        this.title = title;
-        this.description = description;
-        this.content = content;
-        this.author = author;
-        this.bookmark = bookmark;
-    }
+//    public StoryModel(String image, String title, String description, String content, String author, boolean bookmark) {
+//        this.image = image;
+//        this.title = title;
+//        this.description = description;
+//        this.content = content;
+//        this.author = author;
+//        this.bookmark = bookmark;
+//    }
 
     public StoryModel(String id, String image, String title, String description, String content, String author, boolean bookmark) {
         this.id = id;

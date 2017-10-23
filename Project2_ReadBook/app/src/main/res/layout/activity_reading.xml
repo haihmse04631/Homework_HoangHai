@@ -5,8 +5,8 @@
     android:layout_height="match_parent"
     tools:context="com.example.haihoang.project2_readbook.activity.ReadingActivity"
     android:orientation="vertical">
-
     <ProgressBar
+        android:id="@+id/prbStatus"
         style="@style/Base.Widget.AppCompat.ProgressBar.Horizontal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
@@ -14,10 +14,6 @@
     <android.support.v4.view.ViewPager
         android:id="@+id/vp_reading"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
-
-
-
-    </android.support.v4.view.ViewPager>
+        android:layout_height="match_parent" />
 
 </LinearLayout>
