@@ -1,4 +1,4 @@
-package com.example.haihoang.freemusic;
+package com.example.haihoang.freemusic.network;
 
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;

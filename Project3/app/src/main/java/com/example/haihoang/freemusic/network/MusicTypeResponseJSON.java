@@ -1,4 +1,4 @@
-package com.example.haihoang.freemusic;
+package com.example.haihoang.freemusic.network;
 
 import java.util.List;
 
@@ -7,10 +7,10 @@ import java.util.List;
  */
 
 public class MusicTypeResponseJSON {
-    List<SubObjectJSON> subgenres;
+    public List<SubObjectJSON> subgenres;
 
     public class SubObjectJSON {
-        String id, translation_key;
+        public String id, translation_key;
 
     }
 }
