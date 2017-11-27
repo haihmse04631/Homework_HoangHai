@@ -55,10 +55,6 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-
-
-
-
     }
 
     private void loadData() {
@@ -79,7 +75,7 @@ public class MainActivity extends AppCompatActivity {
                         String des = itemList.weather.get(0).description;
                         float per = itemList.pressure;
                        // Log.e("check" , weatherObj.toString() + day);
-                        weatherList.add(new Weather(per,des, main, tempDay));
+                        weatherList.add(new Weather(per,des, main, tempDay, R.drawable.ic_ac_unit_black_24dp));
                     }
 
                     for(int i=0; i<weatherList.size(); i++){

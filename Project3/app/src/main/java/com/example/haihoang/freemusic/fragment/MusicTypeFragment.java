@@ -4,9 +4,8 @@ package com.example.haihoang.freemusic.fragment;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,7 +13,7 @@ import android.view.ViewGroup;
 import com.example.haihoang.freemusic.R;
 import com.example.haihoang.freemusic.adapter.MusicTypeAdapter;
 import com.example.haihoang.freemusic.database.MusicTypeModel;
-import com.example.haihoang.freemusic.network.MusicTypeInterface;
+import com.example.haihoang.freemusic.network.MusicInterface;
 import com.example.haihoang.freemusic.network.MusicTypeResponseJSON;
 import com.example.haihoang.freemusic.network.RetrofitInstance;
 
@@ -48,11 +47,25 @@ public class MusicTypeFragment extends Fragment {
         ButterKnife.bind(this, view);
         context = getContext();
 
-        loadData();
-
-        adapter = new MusicTypeAdapter(musicTypeModelList);
+        adapter = new MusicTypeAdapter(musicTypeModelList, context);
         recyclerView.setAdapter(adapter);
-        recyclerView.setLayoutManager(new LinearLayoutManager(context));
+        //recyclerView.setLayoutManager(new LinearLayoutManager(context));
+        GridLayoutManager gridLayoutManager = new GridLayoutManager(
+                context,
+                2
+        );
+
+        gridLayoutManager.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {
+            @Override
+            public int getSpanSize(int position) {
+
+                return (position % 3 == 0 ? 2 : 1);
+            }
+        });
+
+        recyclerView.setLayoutManager(gridLayoutManager);
+
+        loadData();
 
 
         // Inflate the layout for this fragment
@@ -60,15 +73,15 @@ public class MusicTypeFragment extends Fragment {
     }
 
     private void loadData() {
-        MusicTypeInterface musicTypeInterface =
-                RetrofitInstance.getInstance().create(MusicTypeInterface.class);
+        MusicInterface musicTypeInterface =
+                RetrofitInstance.getInstance().create(MusicInterface.class);
 
         musicTypeInterface.getMusicType().enqueue(new Callback<MusicTypeResponseJSON>() {
             @Override
             public void onResponse(Call<MusicTypeResponseJSON> call, Response<MusicTypeResponseJSON> response) {
                 List<MusicTypeResponseJSON.SubObjectJSON> list = response.body().subgenres;
 
-                for(int i=0; i<list.size(); i++){
+                for(int i=0; i<list.size() - 1; i++){
                     MusicTypeModel musicTypeModel = new MusicTypeModel();
                     musicTypeModel.id = list.get(i).id;
                     musicTypeModel.key = list.get(i).translation_key;

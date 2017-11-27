@@ -62,7 +62,7 @@ public class WeatherTypeAdapter extends RecyclerView.Adapter<WeatherTypeAdapter.
           }
 
           public void setData(Weather weather){
-               imgWeather.setImageResource(R.drawable.ic_ac_unit_black_24dp);
+               imgWeather.setImageResource(weather.imgID);
                tvDay.setText(weather.day + "");
                tvMain.setText(weather.main);
                tvPerssure.setText(weather.perssure + "");

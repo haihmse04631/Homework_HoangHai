@@ -4,22 +4,12 @@ import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
-import android.view.View;
 
-import com.example.haihoang.freemusic.adapter.ViewPagerAdapter;
-import com.example.haihoang.freemusic.network.MusicTypeInterface;
-import com.example.haihoang.freemusic.network.MusicTypeResponseJSON;
 import com.example.haihoang.freemusic.R;
-import com.example.haihoang.freemusic.network.RetrofitInstance;
-
-import java.util.List;
+import com.example.haihoang.freemusic.adapter.ViewPagerAdapter;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 
 public class MainActivity extends AppCompatActivity {
     @BindView(R.id.tab_layout)
