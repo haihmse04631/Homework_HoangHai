@@ -2,6 +2,7 @@ package com.example.haihoang.freemusic.adapter;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
+import android.util.EventLog;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,7 +11,11 @@ import android.widget.TextView;
 
 import com.example.haihoang.freemusic.R;
 import com.example.haihoang.freemusic.database.TopSongModel;
+import com.example.haihoang.freemusic.event.OnClickMusicTypeEvent;
+import com.example.haihoang.freemusic.event.OnClickTopSongEvent;
 import com.squareup.picasso.Picasso;
+
+import org.greenrobot.eventbus.EventBus;
 
 import java.util.List;
 
@@ -57,15 +62,24 @@ public class TopSongAdapter extends RecyclerView.Adapter<TopSongAdapter.TopSongV
         TextView tvSong;
         @BindView(R.id.tv_singer)
         TextView tvSinger;
+        View view;
         public TopSongViewHodel(View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
+            view = itemView;
         }
 
-        public void setData(TopSongModel topSongModel){
+        public void setData(final TopSongModel topSongModel){
             Picasso.with(context).load(topSongModel.smallImage).transform(new CropCircleTransformation()).into(ivSong);
             tvSong.setText(topSongModel.song);
             tvSinger.setText(topSongModel.singer);
+
+            view.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    EventBus.getDefault().postSticky(new OnClickTopSongEvent(topSongModel));
+                }
+            });
         }
     }
 }
