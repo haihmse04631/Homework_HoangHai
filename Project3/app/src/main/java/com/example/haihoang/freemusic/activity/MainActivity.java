@@ -18,7 +18,9 @@ import com.example.haihoang.freemusic.R;
 import com.example.haihoang.freemusic.adapter.ViewPagerAdapter;
 import com.example.haihoang.freemusic.database.TopSongModel;
 import com.example.haihoang.freemusic.event.OnClickTopSongEvent;
+import com.example.haihoang.freemusic.fragment.MainPlayer;
 import com.example.haihoang.freemusic.util.MusicHandler;
+import com.example.haihoang.freemusic.util.Utils;
 import com.squareup.picasso.Picasso;
 
 import org.greenrobot.eventbus.EventBus;
@@ -66,6 +68,7 @@ public class MainActivity extends AppCompatActivity {
         Picasso.with(this).load(topSongModel.smallImage).transform(new CropCircleTransformation()).into(ivSong);
 
         MusicHandler.getSearchSong(topSongModel, this);
+        MusicHandler.updateUIRealtime(sbMini, btnPlayPause, ivSong, null, null);
     }
 
     private void setupUI() {
@@ -97,6 +100,13 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        rlMini.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Utils.openFragment(getSupportFragmentManager(), R.id.rl_main_player, new MainPlayer());
+            }
+        });
+
         ViewPagerAdapter viewPagerAdapter = new ViewPagerAdapter(getSupportFragmentManager());
         viewPager.setAdapter(viewPagerAdapter);
         viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
@@ -108,5 +118,14 @@ public class MainActivity extends AppCompatActivity {
                 MusicHandler.playPauseMusic();
             }
         });
+    }
+
+    @Override
+    public void onBackPressed() {
+        if(getSupportFragmentManager().getBackStackEntryCount() != 0){
+            super.onBackPressed();
+        }else{
+            moveTaskToBack(true);
+        }
     }
 }

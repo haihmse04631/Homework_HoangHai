@@ -13,6 +13,7 @@ import com.example.haihoang.freemusic.R;
 import com.example.haihoang.freemusic.database.TopSongModel;
 import com.example.haihoang.freemusic.event.OnClickMusicTypeEvent;
 import com.example.haihoang.freemusic.event.OnClickTopSongEvent;
+import com.example.haihoang.freemusic.notification.MusicNotificaiton;
 import com.squareup.picasso.Picasso;
 
 import org.greenrobot.eventbus.EventBus;

@@ -5,7 +5,6 @@
     android:layout_width="match_parent"
     android:layout_height="170dp"
     android:background="#476bdf">
-    
     <ImageView
         android:scaleType="centerCrop"
         android:id="@+id/iv_music_type"
