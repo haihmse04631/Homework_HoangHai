@@ -71,7 +71,6 @@ public class MainPlayer extends Fragment {
                 getActivity().onBackPressed();
             }
         });
-
         ivDowload.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

@@ -4,10 +4,16 @@
     android:layout_height="match_parent"
     tools:context="com.example.haihoang.freemusic.fragment.DownloadFragment">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <RelativeLayout
+        android:background="@color/colorBackground"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="Download Fragment" />
+        android:layout_height="match_parent">
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/rv_list_download"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
+
+    </RelativeLayout>
 
 </FrameLayout>

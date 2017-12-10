@@ -16,6 +16,7 @@ import android.widget.TextView;
 
 import com.example.haihoang.freemusic.R;
 import com.example.haihoang.freemusic.adapter.ViewPagerAdapter;
+import com.example.haihoang.freemusic.database.OfflineListManager;
 import com.example.haihoang.freemusic.database.TopSongModel;
 import com.example.haihoang.freemusic.event.OnClickTopSongEvent;
 import com.example.haihoang.freemusic.fragment.MainPlayer;
@@ -51,8 +52,8 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
         EventBus.getDefault().register(this);
+        OfflineListManager.loadFile();
         setupUI();
     }
 
