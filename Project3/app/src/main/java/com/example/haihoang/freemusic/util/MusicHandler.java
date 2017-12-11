@@ -156,26 +156,20 @@ public class MusicHandler {
     }
 
     public static void playOfflineMusic(String path) throws IOException {
-        if(hybridMediaPlayer != null){
-            if(hybridMediaPlayer.isPlaying()){
-                hybridMediaPlayer.pause();
-                hybridMediaPlayer.release();
-                mediaPlayer = new MediaPlayer();
-                mediaPlayer.setDataSource(path);
-                mediaPlayer.prepare();
-                mediaPlayer.start();
-            }else{
-                mediaPlayer = new MediaPlayer();
-                mediaPlayer.setDataSource(path);
-                mediaPlayer.prepare();
-                mediaPlayer.start();
-            }
-        }else{
+        if(hybridMediaPlayer != null) {
+            Log.e("check player", "1");
+            hybridMediaPlayer.pause();
+            hybridMediaPlayer.release();
+        }
+
+        if(mediaPlayer != null){
+            mediaPlayer.stop();
+            mediaPlayer.release();
+        }
             mediaPlayer = new MediaPlayer();
             mediaPlayer.setDataSource(path);
             mediaPlayer.prepare();
             mediaPlayer.start();
-        }
 
     }
 
@@ -189,7 +183,6 @@ public class MusicHandler {
         Runnable runnable = new Runnable() {
             @Override
             public void run() {
-                //update UI
                 if( isUpdate && mediaPlayer != null){
                     seekBar.setMax(mediaPlayer.getDuration());
                     seekBar.setProgress(mediaPlayer.getCurrentPosition());
