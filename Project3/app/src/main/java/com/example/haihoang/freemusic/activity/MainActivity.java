@@ -64,7 +64,6 @@ public class MainActivity extends AppCompatActivity {
     @Subscribe(sticky = true)
     public void onReceivedTopSong(OnClickTopSongEvent onClickTopSongEvent){
         TopSongModel topSongModel = onClickTopSongEvent.topSongModel;
-        Log.e("OnreceiviedSong", topSongModel.song + "");
 
         rlMini.setVisibility(View.VISIBLE);
 
@@ -86,7 +85,7 @@ public class MainActivity extends AppCompatActivity {
         tvSong.setText(offlineSongModel.song);
         Picasso.with(this).load(R.drawable.offline_song).transform(new CropCircleTransformation()).into(ivSong);
 
-        MusicHandler.playOfflineMusic(offlineSongModel.path);
+        MusicHandler.playOfflineMusic(offlineSongModel.path, offlineSongModel, this);
         MusicHandler.updateUIRealtimeOffline(sbMini, btnPlayPause, ivSong, null, null);
     }
 

@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.SeekBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.haihoang.freemusic.R;
 import com.example.haihoang.freemusic.database.MusicTypeModel;
@@ -77,7 +78,11 @@ public class MainPlayer extends Fragment {
         ivDowload.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                DownloadHandler.downloadSearchSong(topSongModel, getContext());
+                if(MusicHandler.mediaPlayer.isPlaying()){
+                    Toast.makeText(getContext(),"This song has downloaded!", Toast.LENGTH_LONG).show();
+                }else {
+                    DownloadHandler.downloadSearchSong(topSongModel, getContext());
+                }
             }
         });
         return view;

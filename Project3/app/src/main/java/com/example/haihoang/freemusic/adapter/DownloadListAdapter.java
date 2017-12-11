@@ -71,7 +71,7 @@ public class DownloadListAdapter extends RecyclerView.Adapter<DownloadListAdapte
         public void setData(final  OfflineSongModel offlineSongModel){
             tvSong.setText(offlineSongModel.song);
             tvSinger.setText(offlineSongModel.singer);
-            ivSong.setImageResource(R.drawable.offline_song);
+            Picasso.with(context).load(R.drawable.offline_song).transform(new CropCircleTransformation()).into(ivSong);
             view.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {

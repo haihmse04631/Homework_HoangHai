@@ -11,6 +11,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.haihoang.freemusic.R;
+import com.example.haihoang.freemusic.database.OfflineSongModel;
 import com.example.haihoang.freemusic.database.TopSongModel;
 import com.example.haihoang.freemusic.network.MusicInterface;
 import com.example.haihoang.freemusic.network.MusicResponseJSON;
@@ -38,6 +39,7 @@ public class MusicHandler {
     public static HybridMediaPlayer hybridMediaPlayer;
     public static MediaPlayer mediaPlayer;
     private static boolean isUpdate = true;
+    private static Runnable runnable1;
 
     public static void getSearchSong(final TopSongModel topSongModel, final Context context){
         MusicInterface musicInterface = RetrofitInstance.getInstance().create(MusicInterface.class);
@@ -80,6 +82,7 @@ public class MusicHandler {
             }else{
                 mediaPlayer.start();
             }
+            MusicNotificaiton.updateNotification();
         }
 
 
@@ -108,7 +111,7 @@ public class MusicHandler {
                                         final TextView tvCurrent,
                                         final TextView tvDuration) {
         final android.os.Handler handler = new android.os.Handler();
-        Runnable runnable = new Runnable() {
+        runnable1 = new Runnable() {
             @Override
             public void run() {
                 //update UI
@@ -134,7 +137,7 @@ public class MusicHandler {
                 handler.postDelayed(this, 100);
             }
         };
-        runnable.run();
+        runnable1.run();
 
         seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
@@ -155,7 +158,7 @@ public class MusicHandler {
         });
     }
 
-    public static void playOfflineMusic(String path) throws IOException {
+    public static void playOfflineMusic(String path, OfflineSongModel offlineSongModel, Context context) throws IOException {
         if(hybridMediaPlayer != null) {
             Log.e("check player", "1");
             hybridMediaPlayer.pause();
@@ -170,6 +173,7 @@ public class MusicHandler {
             mediaPlayer.setDataSource(path);
             mediaPlayer.prepare();
             mediaPlayer.start();
+            MusicNotificaiton.setupNotificationOffline(context,offlineSongModel);
 
     }
 
@@ -180,7 +184,7 @@ public class MusicHandler {
                                         final TextView tvCurrent,
                                         final TextView tvDuration) {
         final android.os.Handler handler = new android.os.Handler();
-        Runnable runnable = new Runnable() {
+        runnable1 = new Runnable() {
             @Override
             public void run() {
                 if( isUpdate && mediaPlayer != null){
@@ -205,7 +209,7 @@ public class MusicHandler {
                 handler.postDelayed(this, 100);
             }
         };
-        runnable.run();
+        runnable1.run();
 
         seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override

@@ -43,7 +43,7 @@ public class DownloadHandler {
                 });
         downloadManager = new ThinDownloadManager();
         String songName = topSongModel.song + "-" + topSongModel.singer;
-        if(checkListOffline(topSongModel,songName)){
+        if(checkListOffline(songName)){
             Toast.makeText(context, "This song has download!",Toast.LENGTH_LONG).show();
         }else{
             downloadManager.add(downloadRequest);
@@ -52,7 +52,7 @@ public class DownloadHandler {
 
     }
 
-    private static boolean checkListOffline(TopSongModel topSongModel, String songName){
+    private static boolean checkListOffline(String songName){
         for(int i=0 ; i<OfflineListManager.listSongName.size(); i++){
             if(OfflineListManager.listSongName.get(i).equals(songName)) return true;
         }
