@@ -52,13 +52,25 @@ public class MusicNotificaiton {
     }
 
     public static void updateNotification() {
-        if(MusicHandler.hybridMediaPlayer.isPlaying()){
-            remoteViews.setImageViewResource(R.id.btn_play_pause, R.drawable.ic_pause_black_24dp);
-            builder.setOngoing(true);
-        }else{
-            remoteViews.setImageViewResource(R.id.btn_play_pause, R.drawable.ic_play_arrow_black_24dp);
-            builder.setOngoing(false);
+        if(MusicHandler.hybridMediaPlayer != null){
+            if(MusicHandler.hybridMediaPlayer.isPlaying()){
+                remoteViews.setImageViewResource(R.id.btn_play_pause, R.drawable.ic_pause_black_24dp);
+                builder.setOngoing(true);
+            }else{
+                remoteViews.setImageViewResource(R.id.btn_play_pause, R.drawable.ic_play_arrow_black_24dp);
+                builder.setOngoing(false);
+            }
         }
+//        else{
+//            if(MusicHandler.mediaPlayer.isPlaying()){
+//                remoteViews.setImageViewResource(R.id.btn_play_pause, R.drawable.ic_pause_black_24dp);
+//                builder.setOngoing(true);
+//            }else{
+//              //  remoteViews.setImageViewResource(R.id.btn_play_pause, R.drawable.ic_play_arrow_black_24dp);
+//                builder.setOngoing(false);
+//            }
+//        }
+
         notificationManager.notify(NOTIFICATION_ID,builder.build());
     }
 

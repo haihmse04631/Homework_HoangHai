@@ -13,8 +13,10 @@ import android.widget.TextView;
 
 import com.example.haihoang.freemusic.R;
 import com.example.haihoang.freemusic.database.MusicTypeModel;
+import com.example.haihoang.freemusic.database.OfflineSongModel;
 import com.example.haihoang.freemusic.database.TopSongModel;
 import com.example.haihoang.freemusic.event.OnClickMusicTypeEvent;
+import com.example.haihoang.freemusic.event.OnClickOfflineSongEvent;
 import com.example.haihoang.freemusic.event.OnClickTopSongEvent;
 import com.example.haihoang.freemusic.util.DownloadHandler;
 import com.example.haihoang.freemusic.util.MusicHandler;
@@ -54,6 +56,7 @@ public class MainPlayer extends Fragment {
     @BindView(R.id.iv_next)
     ImageView ivNext;
     TopSongModel topSongModel;
+    OfflineSongModel offlineSongModel;
     public MainPlayer() {
         // Required empty public constructor
     }
@@ -101,4 +104,23 @@ public class MainPlayer extends Fragment {
         });
 
     }
+    @Subscribe(sticky = true)
+    public void onMiniPlayerOfflineClicked(OnClickOfflineSongEvent onClickOfflineSongEvent){
+        offlineSongModel = onClickOfflineSongEvent.offlineSongModel;
+
+        tvSong.setText(offlineSongModel.song);
+        tvSinger.setText(offlineSongModel.singer);
+        Picasso.with(getContext()).load(R.drawable.offline_song).transform(new CropCircleTransformation()).into(ivSong);
+
+        MusicHandler.updateUIRealtimeOffline(sbMini, ivPlay , ivSong, tvStartTime, tvEndTime);
+        ivPlay.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                MusicHandler.playPauseMusic();
+            }
+        });
+
+    }
+
+
 }

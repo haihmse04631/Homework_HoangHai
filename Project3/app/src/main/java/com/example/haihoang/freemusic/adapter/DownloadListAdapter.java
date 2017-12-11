@@ -9,7 +9,9 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.haihoang.freemusic.R;
+import com.example.haihoang.freemusic.database.OfflineSongModel;
 import com.example.haihoang.freemusic.database.TopSongModel;
+import com.example.haihoang.freemusic.event.OnClickOfflineSongEvent;
 import com.squareup.picasso.Picasso;
 
 import org.greenrobot.eventbus.EventBus;
@@ -27,9 +29,9 @@ import jp.wasabeef.picasso.transformations.CropTransformation;
 
 public class DownloadListAdapter extends RecyclerView.Adapter<DownloadListAdapter.DownloadListViewHodel> {
     public Context context;
-    public List<TopSongModel> downloadSongModeList;
+    public List<OfflineSongModel> downloadSongModeList;
 
-    public DownloadListAdapter(Context context, List<TopSongModel> downloadSongModeList) {
+    public DownloadListAdapter(Context context, List<OfflineSongModel> downloadSongModeList) {
         this.context = context;
         this.downloadSongModeList = downloadSongModeList;
     }
@@ -66,14 +68,14 @@ public class DownloadListAdapter extends RecyclerView.Adapter<DownloadListAdapte
             view = itemView;
         }
 
-        public void setData(final  TopSongModel topSongModel){
-            tvSong.setText(topSongModel.song);
-            tvSinger.setText(topSongModel.singer);
-            ivSong.setImageResource(R.drawable.ic_favorite_black_24dp);
+        public void setData(final  OfflineSongModel offlineSongModel){
+            tvSong.setText(offlineSongModel.song);
+            tvSinger.setText(offlineSongModel.singer);
+            ivSong.setImageResource(R.drawable.offline_song);
             view.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-
+                    EventBus.getDefault().postSticky(new OnClickOfflineSongEvent(offlineSongModel));
                 }
             });
         }

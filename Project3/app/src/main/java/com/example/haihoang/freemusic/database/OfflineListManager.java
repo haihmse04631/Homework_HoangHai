@@ -17,8 +17,9 @@ import java.util.ArrayList;
 
 public class OfflineListManager {
     public static ArrayList<String> listSongName;
-    public static void loadFile(){
-        File path = new File("/storage/emulated/0/Android/data/com.example.haihoang.freemusic/files/");
+    public static void loadFile(Context context){
+        //File path = new File("/storage/emulated/0/Android/data/com.example.haihoang.freemusic/files/");
+        File path = new File(context.getExternalFilesDir("").getPath());
         Log.e("path", path.toString());
         listSongName = new ArrayList<>();
         File list[] = path.listFiles();
@@ -30,4 +31,5 @@ public class OfflineListManager {
             Log.e("fileName", listSongName.get(i));
         }
     }
+
 }

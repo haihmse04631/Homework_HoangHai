@@ -17,7 +17,9 @@ import android.widget.TextView;
 import com.example.haihoang.freemusic.R;
 import com.example.haihoang.freemusic.adapter.ViewPagerAdapter;
 import com.example.haihoang.freemusic.database.OfflineListManager;
+import com.example.haihoang.freemusic.database.OfflineSongModel;
 import com.example.haihoang.freemusic.database.TopSongModel;
+import com.example.haihoang.freemusic.event.OnClickOfflineSongEvent;
 import com.example.haihoang.freemusic.event.OnClickTopSongEvent;
 import com.example.haihoang.freemusic.fragment.MainPlayer;
 import com.example.haihoang.freemusic.util.MusicHandler;
@@ -26,6 +28,8 @@ import com.squareup.picasso.Picasso;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
+
+import java.io.IOException;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -53,7 +57,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         EventBus.getDefault().register(this);
-        OfflineListManager.loadFile();
+        OfflineListManager.loadFile(this);
         setupUI();
     }
 
@@ -70,6 +74,20 @@ public class MainActivity extends AppCompatActivity {
 
         MusicHandler.getSearchSong(topSongModel, this);
         MusicHandler.updateUIRealtime(sbMini, btnPlayPause, ivSong, null, null);
+    }
+
+    @Subscribe(sticky = true)
+    public void onReceivedOfflineSong(OnClickOfflineSongEvent onClickOfflineSongEvent) throws IOException {
+        OfflineSongModel offlineSongModel = onClickOfflineSongEvent.offlineSongModel;
+
+        rlMini.setVisibility(View.VISIBLE);
+
+        tvSinger.setText(offlineSongModel.singer);
+        tvSong.setText(offlineSongModel.song);
+        Picasso.with(this).load(R.drawable.offline_song).transform(new CropCircleTransformation()).into(ivSong);
+
+        MusicHandler.playOfflineMusic(offlineSongModel.path);
+        MusicHandler.updateUIRealtimeOffline(sbMini, btnPlayPause, ivSong, null, null);
     }
 
     private void setupUI() {

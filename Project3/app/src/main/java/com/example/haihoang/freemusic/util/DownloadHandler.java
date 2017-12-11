@@ -42,8 +42,24 @@ public class DownloadHandler {
                     }
                 });
         downloadManager = new ThinDownloadManager();
-        downloadManager.add(downloadRequest);
-        OfflineListManager.loadFile();
+        String songName = topSongModel.song + "-" + topSongModel.singer;
+        if(checkListOffline(topSongModel,songName)){
+            Toast.makeText(context, "This song has download!",Toast.LENGTH_LONG).show();
+        }else{
+            downloadManager.add(downloadRequest);
+            OfflineListManager.loadFile(context);
+        }
+
     }
+
+    private static boolean checkListOffline(TopSongModel topSongModel, String songName){
+        for(int i=0 ; i<OfflineListManager.listSongName.size(); i++){
+            if(OfflineListManager.listSongName.get(i).equals(songName)) return true;
+        }
+
+        return false;
+    }
+
+
 
 }
