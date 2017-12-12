@@ -88,15 +88,14 @@ public class MusicNotificaiton {
                 builder.setOngoing(false);
             }
         }
-            if(MusicHandler.mediaPlayer.isPlaying()){
+            if(MusicHandler.mediaPlayer != null && MusicHandler.mediaPlayer.isPlaying()){
                 remoteViews.setImageViewResource(R.id.btn_play_pause, R.drawable.ic_pause_black_24dp);
                 builder.setOngoing(true);
             }else{
                 remoteViews.setImageViewResource(R.id.btn_play_pause, R.drawable.ic_play_arrow_black_24dp);
                 builder.setOngoing(false);
             }
-
-
+        
         notificationManager.notify(NOTIFICATION_ID,builder.build());
     }
 
