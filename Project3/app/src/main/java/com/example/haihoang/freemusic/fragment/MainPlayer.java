@@ -4,6 +4,7 @@ package com.example.haihoang.freemusic.fragment;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -78,8 +79,8 @@ public class MainPlayer extends Fragment {
         ivDowload.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(MusicHandler.mediaPlayer.isPlaying()){
-                    Toast.makeText(getContext(),"This song has downloaded!", Toast.LENGTH_LONG).show();
+                if(MusicHandler.mediaPlayer != null && MusicHandler.mediaPlayer.isPlaying()){
+                    Toast.makeText(getActivity(), "This song has downloaded!", Toast.LENGTH_LONG).show();
                 }else {
                     DownloadHandler.downloadSearchSong(topSongModel, getContext());
                 }
