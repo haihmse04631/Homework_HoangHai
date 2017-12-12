@@ -39,7 +39,7 @@ public class DownloadHandler {
 
                     @Override
                     public void onProgress(DownloadRequest downloadRequest, long totalBytes, long downloadedBytes, int progress) {
-                        Toast.makeText(context, "Downloading!", Toast.LENGTH_LONG).show();
+                        Log.e("progress", progress + "");
                     }
                 });
         downloadManager = new ThinDownloadManager();
