@@ -2,7 +2,6 @@ package com.example.haihoang.freemusic.util;
 
 import android.content.Context;
 import android.media.MediaPlayer;
-import android.provider.MediaStore;
 import android.support.design.widget.FloatingActionButton;
 import android.util.Log;
 import android.widget.ImageView;
@@ -11,21 +10,13 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.haihoang.freemusic.R;
-import com.example.haihoang.freemusic.database.OfflineSongModel;
 import com.example.haihoang.freemusic.database.TopSongModel;
 import com.example.haihoang.freemusic.network.MusicInterface;
 import com.example.haihoang.freemusic.network.MusicResponseJSON;
 import com.example.haihoang.freemusic.network.RetrofitInstance;
-import com.example.haihoang.freemusic.network.TopSongResponseJSON;
 import com.example.haihoang.freemusic.notification.MusicNotificaiton;
 
-import org.w3c.dom.Text;
-
-import java.io.File;
 import java.io.IOException;
-import java.util.logging.Handler;
-
-import javax.security.auth.callback.Callback;
 
 import hybridmediaplayer.HybridMediaPlayer;
 import retrofit2.Call;
@@ -57,7 +48,6 @@ public class MusicHandler {
                     Toast.makeText(context, "Not Found", Toast.LENGTH_LONG).show();
                     return;
                 }
-
             }
 
             @Override
@@ -158,77 +148,77 @@ public class MusicHandler {
         });
     }
 
-    public static void playOfflineMusic(String path, OfflineSongModel offlineSongModel, Context context) throws IOException {
-        if(hybridMediaPlayer != null) {
-            Log.e("check player", "1");
-            hybridMediaPlayer.pause();
-            hybridMediaPlayer.release();
-        }
+//    public static void playOfflineMusic(String path, OfflineSongModel offlineSongModel, Context context) throws IOException {
+//        if(hybridMediaPlayer != null) {
+//            Log.e("check player", "1");
+//            hybridMediaPlayer.pause();
+//            hybridMediaPlayer.release();
+//        }
+//
+//        if(mediaPlayer != null){
+//            mediaPlayer.stop();
+//            mediaPlayer.release();
+//        }
+//            mediaPlayer = new MediaPlayer();
+//            mediaPlayer.setDataSource(path);
+//            mediaPlayer.prepare();
+//            mediaPlayer.start();
+//            MusicNotificaiton.setupNotificationOffline(context,offlineSongModel);
+//
+//    }
 
-        if(mediaPlayer != null){
-            mediaPlayer.stop();
-            mediaPlayer.release();
-        }
-            mediaPlayer = new MediaPlayer();
-            mediaPlayer.setDataSource(path);
-            mediaPlayer.prepare();
-            mediaPlayer.start();
-            MusicNotificaiton.setupNotificationOffline(context,offlineSongModel);
 
-    }
-
-
-    public static void updateUIRealtimeOffline(final SeekBar seekBar,
-                                        final FloatingActionButton floatingActionButton,
-                                        final ImageView imageView,
-                                        final TextView tvCurrent,
-                                        final TextView tvDuration) {
-        final android.os.Handler handler = new android.os.Handler();
-        runnable1 = new Runnable() {
-            @Override
-            public void run() {
-                if( isUpdate && mediaPlayer != null){
-                    seekBar.setMax(mediaPlayer.getDuration());
-                    seekBar.setProgress(mediaPlayer.getCurrentPosition());
-
-                    if(mediaPlayer.isPlaying()){
-                        floatingActionButton.setImageResource(R.drawable.ic_pause_black_24dp);
-
-                    }else{
-                        floatingActionButton.setImageResource(R.drawable.ic_play_arrow_black_24dp);
-                    }
-
-                    Utils.rotateAnimation(imageView, mediaPlayer.isPlaying());
-
-                    if(tvCurrent != null){
-                        tvCurrent.setText(Utils.convertTime(mediaPlayer.getCurrentPosition()));
-                        tvDuration.setText(Utils.convertTime(mediaPlayer.getDuration()));
-                    }
-                }
-
-                handler.postDelayed(this, 100);
-            }
-        };
-        runnable1.run();
-
-        seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
-            @Override
-            public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
-
-            }
-
-            @Override
-            public void onStartTrackingTouch(SeekBar seekBar) {
-                isUpdate = false;
-            }
-
-            @Override
-            public void onStopTrackingTouch(SeekBar seekBar) {
-                mediaPlayer.seekTo(seekBar.getProgress());
-                isUpdate = true;
-            }
-        });
-    }
+//    public static void updateUIRealtimeOffline(final SeekBar seekBar,
+//                                        final FloatingActionButton floatingActionButton,
+//                                        final ImageView imageView,
+//                                        final TextView tvCurrent,
+//                                        final TextView tvDuration) {
+//        final android.os.Handler handler = new android.os.Handler();
+//        runnable1 = new Runnable() {
+//            @Override
+//            public void run() {
+//                if( isUpdate && mediaPlayer != null){
+//                    seekBar.setMax(mediaPlayer.getDuration());
+//                    seekBar.setProgress(mediaPlayer.getCurrentPosition());
+//
+//                    if(mediaPlayer.isPlaying()){
+//                        floatingActionButton.setImageResource(R.drawable.ic_pause_black_24dp);
+//
+//                    }else{
+//                        floatingActionButton.setImageResource(R.drawable.ic_play_arrow_black_24dp);
+//                    }
+//
+//                    Utils.rotateAnimation(imageView, mediaPlayer.isPlaying());
+//
+//                    if(tvCurrent != null){
+//                        tvCurrent.setText(Utils.convertTime(mediaPlayer.getCurrentPosition()));
+//                        tvDuration.setText(Utils.convertTime(mediaPlayer.getDuration()));
+//                    }
+//                }
+//
+//                handler.postDelayed(this, 100);
+//            }
+//        };
+//        runnable1.run();
+//
+//        seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+//            @Override
+//            public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
+//
+//            }
+//
+//            @Override
+//            public void onStartTrackingTouch(SeekBar seekBar) {
+//                isUpdate = false;
+//            }
+//
+//            @Override
+//            public void onStopTrackingTouch(SeekBar seekBar) {
+//                mediaPlayer.seekTo(seekBar.getProgress());
+//                isUpdate = true;
+//            }
+//        });
+//    }
 
 
 

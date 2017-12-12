@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,7 +12,6 @@ import android.view.ViewGroup;
 import com.example.haihoang.freemusic.R;
 import com.example.haihoang.freemusic.adapter.DownloadListAdapter;
 import com.example.haihoang.freemusic.database.OfflineListManager;
-import com.example.haihoang.freemusic.database.OfflineSongModel;
 import com.example.haihoang.freemusic.database.TopSongModel;
 
 import java.util.ArrayList;
@@ -21,7 +19,6 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import jp.wasabeef.recyclerview.animators.SlideInLeftAnimator;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -30,7 +27,7 @@ public class DownloadFragment extends Fragment {
     @BindView(R.id.rv_list_download)
     RecyclerView rvListDownload;
     private DownloadListAdapter downloadListAdapter;
-    private List<OfflineSongModel> downloadList = new ArrayList<>();
+    private List<TopSongModel> downloadList = new ArrayList<>();
     public DownloadFragment() {
         // Required empty public constructor
     }
@@ -51,12 +48,15 @@ public class DownloadFragment extends Fragment {
                 String s = OfflineListManager.listSongName.get(i);
                 String tempList[] = s.split("-");
 
-                OfflineSongModel offlineSongModel = new OfflineSongModel();
-                offlineSongModel.song = tempList[0];
-                offlineSongModel.singer = tempList[1];
-                offlineSongModel.path = getActivity().getExternalFilesDir("").getPath() + "/" + s;
+                TopSongModel topSongModel = new TopSongModel();
+                topSongModel.song = tempList[0];
+                topSongModel.singer = tempList[1];
+                topSongModel.url = getActivity().getExternalFilesDir("").getPath() + "/" + s;
+                topSongModel.lagreImage = "R.drawable.offline_song";
+                topSongModel.smallImage = "R.drawable.offline_song";
+                topSongModel.status = 1;
                // Log.e("loadData", offlineSongModel.path);
-                downloadList.add(offlineSongModel);
+                downloadList.add(topSongModel);
                 downloadListAdapter.notifyItemChanged(i);
             }
         }

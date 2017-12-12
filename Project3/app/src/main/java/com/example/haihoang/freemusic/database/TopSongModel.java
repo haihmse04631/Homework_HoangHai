@@ -10,5 +10,6 @@ public class TopSongModel {
     public String smallImage;
     public String url;
     public String lagreImage;
+    public int status;
 
 }

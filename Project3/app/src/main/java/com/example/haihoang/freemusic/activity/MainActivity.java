@@ -5,21 +5,17 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
 import com.example.haihoang.freemusic.R;
 import com.example.haihoang.freemusic.adapter.ViewPagerAdapter;
 import com.example.haihoang.freemusic.database.OfflineListManager;
-import com.example.haihoang.freemusic.database.OfflineSongModel;
 import com.example.haihoang.freemusic.database.TopSongModel;
-import com.example.haihoang.freemusic.event.OnClickOfflineSongEvent;
 import com.example.haihoang.freemusic.event.OnClickTopSongEvent;
 import com.example.haihoang.freemusic.fragment.MainPlayer;
 import com.example.haihoang.freemusic.util.MusicHandler;
@@ -28,8 +24,6 @@ import com.squareup.picasso.Picasso;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
-
-import java.io.IOException;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -69,25 +63,30 @@ public class MainActivity extends AppCompatActivity {
 
         tvSinger.setText(topSongModel.singer);
         tvSong.setText(topSongModel.song);
-        Picasso.with(this).load(topSongModel.smallImage).transform(new CropCircleTransformation()).into(ivSong);
+        Log.e("image", topSongModel.smallImage);
+        if(topSongModel.status == 1){
+            Picasso.with(this).load(R.drawable.offline_song).transform(new CropCircleTransformation()).into(ivSong);
+        }else{
+            Picasso.with(this).load(topSongModel.smallImage).transform(new CropCircleTransformation()).into(ivSong);
+        }
 
         MusicHandler.getSearchSong(topSongModel, this);
         MusicHandler.updateUIRealtime(sbMini, btnPlayPause, ivSong, null, null);
     }
 
-    @Subscribe(sticky = true)
-    public void onReceivedOfflineSong(OnClickOfflineSongEvent onClickOfflineSongEvent) throws IOException {
-        OfflineSongModel offlineSongModel = onClickOfflineSongEvent.offlineSongModel;
-
-        rlMini.setVisibility(View.VISIBLE);
-
-        tvSinger.setText(offlineSongModel.singer);
-        tvSong.setText(offlineSongModel.song);
-        Picasso.with(this).load(R.drawable.offline_song).transform(new CropCircleTransformation()).into(ivSong);
-
-        MusicHandler.playOfflineMusic(offlineSongModel.path, offlineSongModel, this);
-        MusicHandler.updateUIRealtimeOffline(sbMini, btnPlayPause, ivSong, null, null);
-    }
+//    @Subscribe(sticky = true)
+//    public void onReceivedOfflineSong(OnClickOfflineSongEvent onClickOfflineSongEvent) throws IOException {
+//        OfflineSongModel offlineSongModel = onClickOfflineSongEvent.offlineSongModel;
+//
+//        rlMini.setVisibility(View.VISIBLE);
+//
+//        tvSinger.setText(offlineSongModel.singer);
+//        tvSong.setText(offlineSongModel.song);
+//        Picasso.with(this).load(R.drawable.offline_song).transform(new CropCircleTransformation()).into(ivSong);
+//
+//        MusicHandler.playOfflineMusic(offlineSongModel.path, offlineSongModel, this);
+//        MusicHandler.updateUIRealtimeOffline(sbMini, btnPlayPause, ivSong, null, null);
+//    }
 
     private void setupUI() {
         ButterKnife.bind(this);
