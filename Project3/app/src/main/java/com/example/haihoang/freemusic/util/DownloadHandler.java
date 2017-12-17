@@ -7,6 +7,7 @@ import android.widget.Toast;
 
 import com.example.haihoang.freemusic.database.OfflineListManager;
 import com.example.haihoang.freemusic.database.TopSongModel;
+import com.example.haihoang.freemusic.notification.DownloadNotifitcation;
 import com.thin.downloadmanager.DefaultRetryPolicy;
 import com.thin.downloadmanager.DownloadManager;
 import com.thin.downloadmanager.DownloadRequest;
@@ -39,7 +40,7 @@ public class DownloadHandler {
 
                     @Override
                     public void onProgress(DownloadRequest downloadRequest, long totalBytes, long downloadedBytes, int progress) {
-                        Log.e("progress", progress + "");
+                        DownloadNotifitcation.updateNotification(progress, topSongModel);
                     }
                 });
         downloadManager = new ThinDownloadManager();

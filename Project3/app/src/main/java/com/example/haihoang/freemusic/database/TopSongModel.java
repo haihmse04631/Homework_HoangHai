@@ -11,5 +11,5 @@ public class TopSongModel {
     public String url;
     public String lagreImage;
     public int status;
-
+    public int index;
 }

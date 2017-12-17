@@ -18,6 +18,7 @@ import com.example.haihoang.freemusic.database.OfflineListManager;
 import com.example.haihoang.freemusic.database.TopSongModel;
 import com.example.haihoang.freemusic.event.OnClickTopSongEvent;
 import com.example.haihoang.freemusic.fragment.MainPlayer;
+import com.example.haihoang.freemusic.fragment.TopSongFragment;
 import com.example.haihoang.freemusic.util.MusicHandler;
 import com.example.haihoang.freemusic.util.Utils;
 import com.squareup.picasso.Picasso;
@@ -74,19 +75,6 @@ public class MainActivity extends AppCompatActivity {
         MusicHandler.updateUIRealtime(sbMini, btnPlayPause, ivSong, null, null);
     }
 
-//    @Subscribe(sticky = true)
-//    public void onReceivedOfflineSong(OnClickOfflineSongEvent onClickOfflineSongEvent) throws IOException {
-//        OfflineSongModel offlineSongModel = onClickOfflineSongEvent.offlineSongModel;
-//
-//        rlMini.setVisibility(View.VISIBLE);
-//
-//        tvSinger.setText(offlineSongModel.singer);
-//        tvSong.setText(offlineSongModel.song);
-//        Picasso.with(this).load(R.drawable.offline_song).transform(new CropCircleTransformation()).into(ivSong);
-//
-//        MusicHandler.playOfflineMusic(offlineSongModel.path, offlineSongModel, this);
-//        MusicHandler.updateUIRealtimeOffline(sbMini, btnPlayPause, ivSong, null, null);
-//    }
 
     private void setupUI() {
         ButterKnife.bind(this);
@@ -136,6 +124,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
     }
+
 
     @Override
     public void onBackPressed() {

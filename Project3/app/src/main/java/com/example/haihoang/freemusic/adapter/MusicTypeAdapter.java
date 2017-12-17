@@ -70,7 +70,7 @@ public class MusicTypeAdapter extends RecyclerView.Adapter<MusicTypeAdapter.Musi
         public void setData(final MusicTypeModel musicTypeModel){
             Picasso.with(context).load(musicTypeModel.imageID).into(imageView);
             tvName.setText(musicTypeModel.key);
-            view.setOnClickListener(new View.OnClickListener() {
+            view.setOnClickListener(    new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     Utils.openFragment( ((MainActivity) context).getSupportFragmentManager(), R.id.rl_main, new TopSongFragment());

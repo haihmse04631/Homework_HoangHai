@@ -1,6 +1,7 @@
 package com.example.haihoang.freemusic.fragment;
 
 
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.FloatingActionButton;
@@ -18,9 +19,11 @@ import android.widget.Toast;
 
 import com.example.haihoang.freemusic.R;
 import com.example.haihoang.freemusic.adapter.TopSongAdapter;
+import com.example.haihoang.freemusic.database.DatabaseHandler;
 import com.example.haihoang.freemusic.database.MusicTypeModel;
 import com.example.haihoang.freemusic.database.TopSongModel;
 import com.example.haihoang.freemusic.event.OnClickMusicTypeEvent;
+import com.example.haihoang.freemusic.event.OnUpdateRvFav;
 import com.example.haihoang.freemusic.network.MusicInterface;
 import com.example.haihoang.freemusic.network.RetrofitInstance;
 import com.example.haihoang.freemusic.network.TopSongResponseJSON;
@@ -64,7 +67,7 @@ public class TopSongFragment extends Fragment {
     public MusicTypeModel musicTypeModel;
 
     private TopSongAdapter topSongAdapter;
-    private List<TopSongModel> topSongModelList = new ArrayList<>();
+    public static List<TopSongModel> topSongModelList = new ArrayList<>();
 
     public TopSongFragment() {
         // Required empty public constructor
@@ -93,7 +96,7 @@ public class TopSongFragment extends Fragment {
                     topSongModel.singer = entryJSONList.get(i).artist.label;
                     topSongModel.song = entryJSONList.get(i).name.label;
                     topSongModel.smallImage = entryJSONList.get(i).image.get(2).label;
-
+                    topSongModel.index = i;
                     topSongModelList.add(topSongModel);
                     topSongAdapter.notifyItemChanged(i);
                 }
@@ -140,13 +143,34 @@ public class TopSongFragment extends Fragment {
             }
         });
 
-        topSongAdapter = new TopSongAdapter(getContext(), topSongModelList);
+        topSongAdapter = new TopSongAdapter(getContext(), topSongModelList) ;
         rvTopSongs.setAdapter(topSongAdapter);
         rvTopSongs.setLayoutManager(new LinearLayoutManager(getContext()));
 
         rvTopSongs.setItemAnimator(new SlideInLeftAnimator());
         rvTopSongs.getItemAnimator().setAddDuration(300);
         avLoad.show();
+
+        if(musicTypeModel.isFavorite){
+            ivFavorite.setColorFilter(Color.RED);
+        }else {
+            ivFavorite.setColorFilter(Color.WHITE);
+        }
+
+        ivFavorite.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                DatabaseHandler.updateFavorite(musicTypeModel);
+                if(musicTypeModel.isFavorite){
+                    ivFavorite.setColorFilter(Color.RED);
+                }else {
+                    ivFavorite.setColorFilter(Color.WHITE);
+                }
+                EventBus.getDefault().postSticky(new OnUpdateRvFav());
+            }
+        });
+
+
     }
 
 }

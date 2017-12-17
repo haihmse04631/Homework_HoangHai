@@ -6,12 +6,14 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.haihoang.freemusic.R;
 import com.example.haihoang.freemusic.adapter.MusicTypeAdapter;
+import com.example.haihoang.freemusic.database.DatabaseHandler;
 import com.example.haihoang.freemusic.database.MusicTypeModel;
 import com.example.haihoang.freemusic.network.MusicInterface;
 import com.example.haihoang.freemusic.network.MusicTypeResponseJSON;
@@ -64,9 +66,12 @@ public class MusicTypeFragment extends Fragment {
         });
 
         recyclerView.setLayoutManager(gridLayoutManager);
-
-        loadData();
-
+        if(DatabaseHandler.getMusicTypes().size() == 0){
+            loadData();
+        }else {
+            musicTypeModelList.addAll(DatabaseHandler.getMusicTypes());
+            adapter.notifyDataSetChanged();
+        }
 
         // Inflate the layout for this fragment
         return view;
@@ -90,6 +95,7 @@ public class MusicTypeFragment extends Fragment {
                             "raw",
                             getContext().getPackageName());
                     musicTypeModelList.add(musicTypeModel);
+                    DatabaseHandler.addMusicType(musicTypeModel);
                 }
                 adapter.notifyDataSetChanged();
             }

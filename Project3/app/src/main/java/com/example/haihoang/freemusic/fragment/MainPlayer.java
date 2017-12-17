@@ -4,6 +4,7 @@ package com.example.haihoang.freemusic.fragment;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,6 +16,7 @@ import android.widget.Toast;
 import com.example.haihoang.freemusic.R;
 import com.example.haihoang.freemusic.database.TopSongModel;
 import com.example.haihoang.freemusic.event.OnClickTopSongEvent;
+import com.example.haihoang.freemusic.notification.DownloadNotifitcation;
 import com.example.haihoang.freemusic.util.DownloadHandler;
 import com.example.haihoang.freemusic.util.MusicHandler;
 import com.squareup.picasso.Picasso;
@@ -53,6 +55,7 @@ public class MainPlayer extends Fragment {
     @BindView(R.id.iv_next)
     ImageView ivNext;
     TopSongModel topSongModel;
+    TopSongModel topSongModelNew;
     public MainPlayer() {
         // Required empty public constructor
     }
@@ -77,7 +80,22 @@ public class MainPlayer extends Fragment {
                     Toast.makeText(getActivity(), "This song has downloaded!", Toast.LENGTH_LONG).show();
                 }else {
                     DownloadHandler.downloadSearchSong(topSongModel, getContext());
+                    DownloadNotifitcation.setDownloadNotification(getContext(), topSongModel);
                 }
+            }
+        });
+
+        ivPre.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                musicActionHandler(topSongModel,0);
+            }
+        });
+
+        ivNext.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                musicActionHandler(topSongModel, 1);
             }
         });
         return view;
@@ -107,24 +125,39 @@ public class MainPlayer extends Fragment {
             }
         });
 
+
     }
-//    @Subscribe(sticky = true)
-//    public void onMiniPlayerOfflineClicked(OnClickOfflineSongEvent onClickOfflineSongEvent){
-//        offlineSongModel = onClickOfflineSongEvent.offlineSongModel;
-//
-//        tvSong.setText(offlineSongModel.song);
-//        tvSinger.setText(offlineSongModel.singer);
-//        Picasso.with(getContext()).load(R.drawable.offline_song).transform(new CropCircleTransformation()).into(ivSong);
-//
-//        MusicHandler.updateUIRealtimeOffline(sbMini, ivPlay , ivSong, tvStartTime, tvEndTime);
-//        ivPlay.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                MusicHandler.playPauseMusic();
-//            }
-//        });
-//
-//    }
+
+    private void musicActionHandler(TopSongModel topSongModel, int option){
+        if(option == 0){
+            for(int i=0; i<TopSongFragment.topSongModelList.size(); i++){
+                if(TopSongFragment.topSongModelList.get(i).index == topSongModel.index){
+                    if(i == 0){
+                        topSongModelNew = TopSongFragment.topSongModelList.get(TopSongFragment.topSongModelList.size());
+                    }else{
+                        topSongModelNew = TopSongFragment.topSongModelList.get(i-1);
+                    }
+                    EventBus.getDefault().postSticky(new OnClickTopSongEvent(topSongModelNew));
+                    break;
+                }
+            }
+        }
+        else {
+            for(int i=0; i<TopSongFragment.topSongModelList.size(); i++){
+                if(TopSongFragment.topSongModelList.get(i).index == topSongModel.index){
+                    if(i == TopSongFragment.topSongModelList.size()){
+                        topSongModelNew = TopSongFragment.topSongModelList.get(0);
+                        Log.e("musicIndex", "next " +  0);
+                    }else{
+                        topSongModelNew = TopSongFragment.topSongModelList.get(i+1);
+                        Log.e("musicIndex", "next " +  topSongModelNew.index);
+                    }
+                    EventBus.getDefault().postSticky(new OnClickTopSongEvent(topSongModelNew));
+                    break;
+                }
+            }
+        }
+    }
 
 
 }
