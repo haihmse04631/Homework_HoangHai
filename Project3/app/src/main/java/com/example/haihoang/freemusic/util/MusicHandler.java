@@ -11,10 +11,15 @@ import android.widget.Toast;
 
 import com.example.haihoang.freemusic.R;
 import com.example.haihoang.freemusic.database.TopSongModel;
+import com.example.haihoang.freemusic.event.OnClickTopSongEvent;
+import com.example.haihoang.freemusic.fragment.MainPlayer;
+import com.example.haihoang.freemusic.fragment.TopSongFragment;
 import com.example.haihoang.freemusic.network.MusicInterface;
 import com.example.haihoang.freemusic.network.MusicResponseJSON;
 import com.example.haihoang.freemusic.network.RetrofitInstance;
 import com.example.haihoang.freemusic.notification.MusicNotificaiton;
+
+import org.greenrobot.eventbus.EventBus;
 
 import java.io.IOException;
 
@@ -26,12 +31,13 @@ import retrofit2.Response;
  * Created by haihm on 11/29/2017.
  */
 
-public class MusicHandler {
+public class MusicHandler{
     public static HybridMediaPlayer hybridMediaPlayer;
     public static MediaPlayer mediaPlayer;
     private static boolean isUpdate = true;
     private static Runnable runnable1;
-
+    private static TopSongModel topSongModelNew;
+    private static int pos;
     public static void getSearchSong(final TopSongModel topSongModel, final Context context){
         MusicInterface musicInterface = RetrofitInstance.getInstance().create(MusicInterface.class);
         musicInterface.getSearchSong(topSongModel.song + " " + topSongModel.singer).enqueue(new retrofit2.Callback<MusicResponseJSON>() {
@@ -57,6 +63,7 @@ public class MusicHandler {
             }
         });
     }
+
 
     public static void playPauseMusic() {
         if(hybridMediaPlayer != null){
@@ -122,8 +129,8 @@ public class MusicHandler {
                         tvCurrent.setText(Utils.convertTime(hybridMediaPlayer.getCurrentPosition()));
                         tvDuration.setText(Utils.convertTime(hybridMediaPlayer.getDuration()));
                     }
-                }
 
+                }
                 handler.postDelayed(this, 100);
             }
         };
@@ -131,8 +138,22 @@ public class MusicHandler {
 
         seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
-            public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
-
+            public void onProgressChanged(final SeekBar seekBar, int j, boolean b) {
+                if(j == seekBar.getMax() && j != 0 && j != 1  ){
+                    for(int i=0; i<TopSongFragment.topSongModelList.size(); i++){
+                        if(TopSongFragment.topSongModelList.get(i).index == MainPlayer.topSongModel.index){
+                            if(i == TopSongFragment.topSongModelList.size()){
+                                topSongModelNew = TopSongFragment.topSongModelList.get(0);
+                                Log.e("musicIndex", "next " +  0);
+                            }else{
+                                topSongModelNew = TopSongFragment.topSongModelList.get(i+1);
+                                Log.e("musicIndex", "next " +  topSongModelNew.index);
+                            }
+                            EventBus.getDefault().postSticky(new OnClickTopSongEvent(topSongModelNew));
+                            break;
+                        }
+                    }
+                }
             }
 
             @Override

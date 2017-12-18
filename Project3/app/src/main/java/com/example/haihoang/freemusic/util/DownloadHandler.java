@@ -20,6 +20,7 @@ import com.thin.downloadmanager.ThinDownloadManager;
  */
 
 public class DownloadHandler {
+    private static Runnable runnable;
     public static ThinDownloadManager downloadManager;
     public static void downloadSearchSong(final TopSongModel topSongModel, final Context context){
         Uri downloadUri = Uri.parse(topSongModel.url);
@@ -39,8 +40,19 @@ public class DownloadHandler {
                     }
 
                     @Override
-                    public void onProgress(DownloadRequest downloadRequest, long totalBytes, long downloadedBytes, int progress) {
-                        DownloadNotifitcation.updateNotification(progress, topSongModel);
+                    public void onProgress(DownloadRequest downloadRequest, long totalBytes, long downloadedBytes, final int progress) {
+                        new Thread(new Runnable() {
+                            @Override
+                            public void run() {
+                                DownloadNotifitcation.updateNotification(progress, topSongModel);
+                                try {
+                                    Thread.sleep(500);
+                                } catch (InterruptedException e) {
+                                    e.printStackTrace();
+                                }
+                            }
+                        }).start();
+
                     }
                 });
         downloadManager = new ThinDownloadManager();

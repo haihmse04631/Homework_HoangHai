@@ -54,7 +54,7 @@ public class MainPlayer extends Fragment {
     FloatingActionButton ivPlay;
     @BindView(R.id.iv_next)
     ImageView ivNext;
-    TopSongModel topSongModel;
+    public static TopSongModel topSongModel;
     TopSongModel topSongModelNew;
     public MainPlayer() {
         // Required empty public constructor
@@ -98,6 +98,7 @@ public class MainPlayer extends Fragment {
                 musicActionHandler(topSongModel, 1);
             }
         });
+
         return view;
     }
 
@@ -158,6 +159,7 @@ public class MainPlayer extends Fragment {
             }
         }
     }
+
 
 
 }

@@ -55,7 +55,6 @@ public class DownloadFragment extends Fragment {
                 topSongModel.lagreImage = "R.drawable.offline_song";
                 topSongModel.smallImage = "R.drawable.offline_song";
                 topSongModel.status = 1;
-               // Log.e("loadData", offlineSongModel.path);
                 downloadList.add(topSongModel);
                 downloadListAdapter.notifyItemChanged(i);
             }
